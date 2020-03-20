@@ -1,0 +1,58 @@
+#ANORMALY DETECTION
+```{r}
+arnomaly <- read.csv('arnom.csv')
+arnomaly
+```
+
+```{r}
+# Using data package provided in the anomalize package and taking single time series of package purrr
+install.packages('purrr')
+library(purrr)
+
+  filter(package == "purrr")%>%
+  ungroup()
+
+purrr_anomaly  = purrr_package %>%
+  time_decompose(count)
+
+purrr_anomaly%>% glimpse()
+```
+
+```{r}
+
+arnomaly$Date <- as.Date(arnomaly$Date)
+```
+  
+```{r}
+install.packages('tidyverse')
+library(tidyverse)
+arnomaly <- as_tibble(arnomaly)
+```
+```{r}
+class(arnomaly)
+```
+```{r}
+install.packages('tibbletime')
+arnomaly<- arnomaly %>%
+tibbletime::as_tbl_time(index = Date)
+```
+```{r}
+head(arnomaly)
+```
+```{r}
+install.packages('time_decompose')
+library(dplyr)
+arnomaly %>%
+    time_decompose(Date) %>%
+    anomalize(remainder) %>%
+    time_recompose() %>%
+    plot_arnomaly(time_recomposed = TRUE, ncol = 3, alpha_dots = 0.5)
+```
+```{r}
+class(arnomaly)
+```
+```{r}
+anomalize(arnomaly)
+```
+
+
